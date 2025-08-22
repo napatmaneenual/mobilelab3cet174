@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobilelab3cet174/models/foodmenu.dart';
-import 'package:mobilelab3cet174/main.dart';  // import MyApp ถ้าจำเป็น
+import 'package:mobilelab3No22cet174/models/house.dart';
+import 'package:mobilelab3No22cet174/main.dart';  // import MyApp ถ้าจำเป็น
 
 class AddForm extends StatefulWidget {
   const AddForm({super.key});
@@ -13,12 +13,12 @@ class _AddFormState extends State<AddForm> {
   final _formKey = GlobalKey<FormState>();
 
   String _name = '';
-  String _component = '';
+  String _address = '';
   int _price = 0;
-  FoodType _foodType = FoodType.ttype1;
+  HouseType _HouseType = HouseType.ttype1;
 
   // เพิ่มตัวแปร _foodpic สำหรับเก็บค่าที่เลือกใน dropdown
-  Foodpic _foodpic = Foodpic.menu1;
+  Housepic _Housepic = Housepic.house1;
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +41,13 @@ class _AddFormState extends State<AddForm> {
                   maxLength: 20,
                   decoration: const InputDecoration(
                     label: Text(
-                      "ชื่ออาหาร",
+                      "ชื่อบ้าน",
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'กรุณาป้อนชื่ออาหาร';
+                      return 'กรุณาป้อนชื่อบ้าน';
                     }
                     return null;
                   },
@@ -59,18 +59,18 @@ class _AddFormState extends State<AddForm> {
                   maxLength: 100,
                   decoration: const InputDecoration(
                     label: Text(
-                      "ส่วนประกอบสำคัญ",
+                      "ที่อยู่",
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'กรุณาป้อนส่วนประกอบสำคัญ';
+                      return 'กรุณาป้อนที่อยู่';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    _component = value!;
+                    _address = value!;
                   },
                 ),
                 TextFormField(
@@ -95,15 +95,15 @@ class _AddFormState extends State<AddForm> {
                   },
                 ),
                 const SizedBox(height: 20),
-                DropdownButtonFormField<FoodType>(
-                  value: _foodType,
+                DropdownButtonFormField<HouseType>(
+                  value: _HouseType,
                   decoration: const InputDecoration(
                     label: Text(
-                      "ชนิดอาหาร",
+                      "ชนิดบ้าน",
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
-                  items: FoodType.values.map((type) {
+                  items: HouseType.values.map((type) {
                     return DropdownMenuItem(
                       value: type,
                       child: Text(type.displayName),
@@ -111,29 +111,29 @@ class _AddFormState extends State<AddForm> {
                   }).toList(),
                   onChanged: (value) {
                     setState(() {
-                      _foodType = value!;
+                      _HouseType = value!;
                     });
                   },
                   onSaved: (value) {
-                    _foodType = value!;
+                    _HouseType = value!;
                   },
                 ),
                 const SizedBox(height: 20),
 
                 // เพิ่ม DropdownButtonFormField สำหรับเลือกรูปภาพ
-                DropdownButtonFormField<Foodpic>(
-                  value: _foodpic,
+                DropdownButtonFormField<Housepic>(
+                  value: _Housepic,
                   decoration: const InputDecoration(
                   label: Text(
                   "เลือกรูปภาพ",
                   style: TextStyle(fontSize: 20),
                 )),
-                items: Foodpic.values.map((pic) {
+                items: Housepic.values.map((pic) {
                   return DropdownMenuItem(
                     value: pic,
                      child: Row(
                       children: [
-                        Text(pic.namefood),
+                        Text(pic.namehouse),
                         const SizedBox(width: 10),
                         Image.asset(
                           pic.image,
@@ -147,11 +147,11 @@ class _AddFormState extends State<AddForm> {
                 }).toList(),
                     onChanged: (value) {
                       setState(() {
-                      _foodpic = value!;
+                      _Housepic = value!;
                     });
                   },
                       onSaved: (value) {
-                    _foodpic = value!;
+                    _Housepic = value!;
                   },
                 ),
 
@@ -165,20 +165,19 @@ class _AddFormState extends State<AddForm> {
                           _formKey.currentState!.save();
 
                           // เพิ่มข้อมูลใหม่เข้าใน list emp
-                          emp.add(Foodmenu(
+                          emp.add(House(
                             name: _name,
-                            type: _foodType,
-                            component: _component,
+                            type: _HouseType,
+                            address: _address,
                             price: _price,
-                            foodpic: _foodpic,
-                            color: Colors.orange,
+                            housepic: _Housepic,
                           ));
 
-                          print("ชื่ออาหาร: $_name");
-                          print("ส่วนประกอบ: $_component");
+                          print("ชื่อบ้าน: $_name");
+                          print("ที่อยู่: $_address");
                           print("ราคา: $_price");
-                          print("ชนิดอาหาร: ${_foodType.displayName}");
-                          print("รูปภาพ: ${_foodpic.name}");
+                          print("ชนิดบ้าน: ${_HouseType.displayName}");
+                          print("รูปภาพ: ${_Housepic.name}");
 
                           _formKey.currentState!.reset();
 
